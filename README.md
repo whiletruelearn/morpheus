@@ -10,4 +10,14 @@
 - A library which would hopefully have a good collection of useful algorithms in *Linear Algebra* implemented
   from scratch without relying on high level APIs.
 
-  
+# Running Morpheus Locally
+
+Within your favorit virtual environment.
+
+```buildoutcfg
+
+git clone https://github.com/whiletruelearn/morpheus.git
+cd morpheus
+pip install -r requirements.txt
+sh run.sh
+```
