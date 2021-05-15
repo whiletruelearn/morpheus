@@ -12,7 +12,7 @@
 
 # Running Morpheus Locally
 
-Within your favorit virtual environment.
+Within your favorite virtual environment.
 
 ```buildoutcfg
 
