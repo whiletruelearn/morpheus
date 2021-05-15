@@ -19,7 +19,7 @@ def show_gaussian_input():
     if type(x) != list:
         st.write("Unknowns  are not correctly formed","[5,-11]")
 
-    b = st.text_input("Enter the coefficients b ")
+    b = st.text_input("Enter the coefficients b ", "[10,20]")
 
     b = eval(b)
 

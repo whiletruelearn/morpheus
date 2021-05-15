@@ -12,6 +12,7 @@ the new feature branch.
 
 1. Setup a virtual environment.
 2. Install the requirements in `requirements.txt`
-3. Entry point is `run.sh` for the streamlit app.
-4. Run tests using `pytest test\*` from the root directory to run the tests.
+3. Entry point is `run.sh` for the streamlit app. It will build the library,
+run the tests against it and bring up the streamlit app.
+
 
