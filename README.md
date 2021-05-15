@@ -1,5 +1,7 @@
 # Morpheus
 
+[![Build Status](https://travis-ci.org/whiletruelearn/morpheus.svg?branch=main)](https://travis-ci.org/whiletruelearn/morpheus)
+
 ![image info](./logo.png)
 
 > Morpheus: "Unfortunately, no one can be told what The Matrix is. You'll have to see it for yourself. "
