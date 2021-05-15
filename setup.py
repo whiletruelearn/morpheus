@@ -19,7 +19,7 @@ setup(
     author_email='kskrishnasangeeth@gmail.com',
     url='https://github.com/whiletruelearn/morpheus',
     keywords='linear algebra toolkit',
-    packages=['whatthelang'],
+    packages=['morpheus'],
     include_package_data=True,
     license=license,
     classifiers=[
