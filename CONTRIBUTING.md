@@ -1,4 +1,4 @@
-# Adding new contribution.
+# Some basic steps for contribution of new features.
 
 1. Fork the repository.
 2. We will follow the Github Pull request [flow](https://guides.github.com/introduction/flow/).

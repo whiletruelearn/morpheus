@@ -14,7 +14,7 @@
 
 Within your favorite virtual environment.
 
-```buildoutcfg
+```shell
 
 git clone https://github.com/whiletruelearn/morpheus.git
 cd morpheus
