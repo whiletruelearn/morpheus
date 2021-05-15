@@ -23,3 +23,7 @@ cd morpheus
 pip install -r requirements.txt
 sh run.sh
 ```
+
+# Streamlit UI 
+
+![image info](./solution.png)
