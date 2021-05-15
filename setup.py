@@ -11,7 +11,7 @@ with open('LICENSE') as f:
 
 
 setup(
-    name='py-morpheus',
+    name='morpheus',
     version='0.1',
     description='Toolkit for Linear algebra.',
     long_description=readme,

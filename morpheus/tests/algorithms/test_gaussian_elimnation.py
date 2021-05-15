@@ -57,17 +57,18 @@ roots = np.array([1000,300,300,700,300])
 
 def test_gaussian_forward_elimnation():
 
-    g = GaussianElimnation(A=A1,x=x1,b=b1)
+    g = GaussianElimnation(A=A1,x=x1,b=b1, use_streamlit = False)
     g.forward_elimnation()
 
     assert (g.U == U1).all() == True
 
 def test_backward_substitution():
 
-    g = GaussianElimnation(A=A1, x=x1, b=b1)
+    g = GaussianElimnation(A=A1, x=x1, b=b1, use_streamlit = False)
     g.forward_elimnation()
     res = g.backward_substitution()
     assert (res["root"].values ==  roots).all() == True
 
-
-
+if __name__ == "__main__":
+    test_gaussian_forward_elimnation()
+    test_backward_substitution()

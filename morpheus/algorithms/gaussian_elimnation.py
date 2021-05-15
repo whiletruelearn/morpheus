@@ -1,13 +1,13 @@
 import numpy as np
 import pandas as pd
-
+from morpheus.core.utils import log
 
 class GaussianElimnation:
     """
     An algorithm for solving system of linear equations.
     https://en.wikipedia.org/wiki/Gaussian_elimination
     """
-    def __init__(self, A: np.ndarray, x: list, b: np.ndarray, partial_pivot=True, decimals=4):
+    def __init__(self, A: np.ndarray, x: list, b: np.ndarray, partial_pivot=True, decimals=4, use_streamlit=True):
         self.A = A
         self.x = x
         self.b = b
@@ -17,35 +17,36 @@ class GaussianElimnation:
         self.m, self.n = self.augmented_matrix.shape
         self.row_ids = ["R{}".format(i) for i in range(1, self.m + 1)]
         self.U = None
+        self.use_streamlit = use_streamlit
 
     def forward_elimnation(self):
         """
         Forward elimnation of the augmented matrix
         leading to a Upper Triangular matrix (U)
         """
-        print("Initial matrix is \n")
-        print(pd.DataFrame(self.augmented_matrix, columns=self.x + ["b"], index=self.row_ids))
+        log("Initial matrix is \n", self.use_streamlit)
+        log(pd.DataFrame(self.augmented_matrix, columns=self.x + ["b"], index=self.row_ids), self.use_streamlit)
 
         mat = self.augmented_matrix
 
         for col in range(0, self.n - 1):
-            print("\n Iterating over column {} \n".format(col + 1))
+            log("\n Iterating over column {} \n".format(col + 1), self.use_streamlit)
             for row in range(0, self.m):
                 if col == row == 0:
                     col_max = mat[:, col].argmax()
                     if col_max != col:
-                        print("\n\n  Operation R{0} <-> R{1}\n".format(col + 1, col_max + 1))
+                        log("\n\n  Operation R{0} <-> R{1}\n".format(col + 1, col_max + 1), self.use_streamlit)
                         mat[[row, col_max], :] = mat[[col_max, row], :]
-                        print(pd.DataFrame(mat, columns=self.x + ["b"], index=self.row_ids))
+                        log(pd.DataFrame(mat, columns=self.x + ["b"], index=self.row_ids), self.use_streamlit)
 
                 if mat[row, col] != 0 and row > col:
                     mult_factor = mat[row, col] / mat[col, col]
-                    print("\n\n Operaton : R{row_num} -> R{row_num} - R{col} * {mult_factor} \n".format(row_num=row + 1,
+                    log("\n\n Operaton : R{row_num} -> R{row_num} - R{col} * {mult_factor} \n".format(row_num=row + 1,
                                                                                                         mult_factor=mult_factor,
-                                                                                                        col=col + 1))
+                                                                                                        col=col + 1), self.use_streamlit)
 
                     mat[row, :] = mat[row, :] - (mult_factor * mat[col, :])
-                    print(pd.DataFrame(mat, columns=self.x + ["b"], index=self.row_ids))
+                    log(pd.DataFrame(mat, columns=self.x + ["b"], index=self.row_ids), self.use_streamlit)
 
                 mat = mat.round(decimals=self.decimals)
         self.U = mat
@@ -77,5 +78,7 @@ class GaussianElimnation:
 
         result = pd.DataFrame(np.hstack((np.array(self.x).reshape(-1,1),unknowns.reshape(-1,1))), columns = ["unknowns","root"])
         result["root"] = result.apply(lambda x : float(x["root"]),axis =1)
+        log("# Solution of the Linear equation \n", self.use_streamlit)
+        log(result, self.use_streamlit)
         return result
 
