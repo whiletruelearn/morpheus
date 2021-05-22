@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from morpheus.core.utils import log
 
 class LUDecomposition:
 
@@ -15,7 +16,7 @@ class LUDecomposition:
         self.use_streamlit = use_streamlit
         self.L = None
         self.U = None
-        self.m, self.n = self.A.shape()
+        self.m, self.n = self.A.shape
 
 
     def dolittle_method(self):
@@ -26,7 +27,8 @@ class LUDecomposition:
         log("\nInitial matrix A \n",use_streamlit = self.use_streamlit)
         log(pd.DataFrame(self.A),use_streamlit = True)
 
-        self.L = np.zeroes((self.m,self.m))
+        self.L = np.zeros((self.m,self.m))
+        self.U = np.zeros((self.m,self.m))
         for idx in range(0,self.m):
             self.L[idx][idx] = 1
 
@@ -34,34 +36,67 @@ class LUDecomposition:
         log(pd.DataFrame(self.L))
 
         log("Setting *U* Matrix first row -> *A* Matrix first row",use_streamlit = self.use_streamlit)
-        self.U[1,:] = self.A[1,:]
+        self.U[0,:] = self.A[0,:]
         log(pd.DataFrame(self.U))
 
-        log("Setting *L* Matrix sceond column -> *A* second column /  U11",use_streamlit = self.use_streamlit)
         for j in range(1, self.m):
-            self.L[j][1] = self.A[j][1] / self.U[0][0]
-        log(pd.DataFrame(self.U))
+            log("Setting *L* Matrix First column -> *A* first column /  U11", use_streamlit=self.use_streamlit)
+            self.L[j][0] = self.A[j][0] / self.U[0][0]
+            log(pd.DataFrame(self.L))
+
 
         log("Update rest of *U* matrix",use_streamlit= self.use_streamlit)
+        log("U \n")
+        log(pd.DataFrame(self.U))
+        log("A \n")
+        log(pd.DataFrame(self.A))
         for j in range(1,self.m):
-            for k in range(j,self.m):
+            for k in range(1,self.m):
                 complement = 0
-                for s in range(1,j):
+                complement_str = ""
+                for s in range(0,j):
                     complement += self.L[j][s] * self.U[s][k]
-            log("U{j}{k} = A{j}{k} - {complement}".format(j=j,k=k,complement=complement),use_streamlit = self.use_streamlit)
-            self.U[j][k] = self.A[j][k] - complement
-            log(pd.DataFrame(self.U))
+                    complement_str += "L[{j}][{s}] * U[{s}][{k}] + ".format(j=j,s=s,k=k)
+                log("U{j}{k} = A{j}{k} - {complement}".format(j=j,k=k,complement=complement_str),use_streamlit = self.use_streamlit)
+                log("U{j}{k} = A{j}{k} - {complement}".format(j=j, k=k, complement=complement),
+                    use_streamlit=self.use_streamlit)
+                self.U[j][k] = self.A[j][k] - complement
+                log(pd.DataFrame(self.U))
+
 
         log("Updating ret of the *L* matrix",use_streamlit = self.use_streamlit)
+        log("L\n")
+        log(self.L)
         for k in range(1, self.m):
-            for j in range(k, self.m):
+            for j in range(k+1, self.m):
                 denominator = self.U[k][k]
                 complement = 0
-                for s in range(1,k):
+                complement_str = ""
+                for s in range(0,k):
                     complement += self.L[j][s] * self.U[s][k]
-                log("L{j}{k} = A{j}{k} - {complement}".format(j=j, k=k, complement=complement),use_streamlit=self.use_streamlit)
+                    complement_str += "L[{j}][{s}] * U[{s}][{k}] + ".format(j=j, s=s, k=k)
+                log("L{j}{k} = (A{j}{k} - {complement} ) / {denom} ".format(j=j, k=k, complement=complement_str, denom = denominator),use_streamlit=self.use_streamlit)
                 self.L[j][k] = (self.A[j][k] - complement) / denominator
                 log(pd.DataFrame(self.L))
+
+        log("Update rest of *U* matrix", use_streamlit=self.use_streamlit)
+        log("U \n")
+        log(pd.DataFrame(self.U))
+        log("A \n")
+        log(pd.DataFrame(self.A))
+        for j in range(1, self.m):
+            for k in range(1, self.m):
+                complement = 0
+                complement_str = ""
+                for s in range(0, j):
+                    complement += self.L[j][s] * self.U[s][k]
+                    complement_str += "L[{j}][{s}] * U[{s}][{k}] + ".format(j=j, s=s, k=k)
+                log("U{j}{k} = A{j}{k} - {complement}".format(j=j, k=k, complement=complement_str),
+                    use_streamlit=self.use_streamlit)
+                log("U{j}{k} = A{j}{k} - {complement}".format(j=j, k=k, complement=complement),
+                    use_streamlit=self.use_streamlit)
+                self.U[j][k] = self.A[j][k] - complement
+                log(pd.DataFrame(self.U))
 
 
     def crout_method(self):
