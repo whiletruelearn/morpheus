@@ -78,7 +78,7 @@ class GaussianElimnation:
 
         result = pd.DataFrame(np.hstack((np.array(self.x).reshape(-1,1),unknowns.reshape(-1,1))), columns = ["unknowns","root"])
         result["root"] = result.apply(lambda x : float(x["root"]),axis =1)
-        log("# Solution of the Linear equation \n", self.use_streamlit)
+        log("## Solution of the Linear equation after backward substitution \n", self.use_streamlit)
         log(result, self.use_streamlit)
         return result
 
